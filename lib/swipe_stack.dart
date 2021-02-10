@@ -25,6 +25,7 @@ class SwipeStack extends StatefulWidget {
   final int translationInterval;
   final double scaleInterval;
   final Duration animationDuration;
+  final bool swipeLeftEnabled;
   final int historyCount;
   final void Function(int, SwiperPosition) onSwipe;
   final void Function(int, SwiperPosition) onRewind;
@@ -42,6 +43,7 @@ class SwipeStack extends StatefulWidget {
     this.translationInterval = 0,
     this.scaleInterval = 0,
     this.animationDuration = const Duration(milliseconds: 200),
+    this.swipeLeftEnabled = true,
     this.historyCount = 1,
     this.onEnd,
     this.onSwipe,
@@ -271,6 +273,8 @@ class SwipeStackState extends State<SwipeStack> with SingleTickerProviderStateMi
   void _onPandEnd(_) {
     setState((){});
     if (_progress < widget.threshold) {
+      _goFirstPosition();
+    } else if (_left < 0 && !widget.swipeLeftEnabled){
       _goFirstPosition();
     } else {
       _animationType = 1;
